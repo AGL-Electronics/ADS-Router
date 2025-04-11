@@ -1,4 +1,6 @@
-package internal
+package logger
+
+// Package logger provides a simple logging utility with support for different log levels and components.
 
 import (
 	"fmt"
@@ -27,13 +29,13 @@ type Component string
 type LogLevel int
 
 const (
-	ComponentNATS        Component = "NATS"
-	ComponentStorage     Component = "Storage"
-	ComponentConfig      Component = "Config"
-	ComponentTransaction Component = "Trans"
-	ComponentService     Component = "Service"
-	ComponentGeneral     Component = "General"
-	ComponentCLI     	 Component = "CLI"
+	ComponentRouter  Component = "router"
+	Componentproxy   Component = "proxy"
+	Componentnetwork Component = "network"
+	Componentads     Component = "ads"
+	Componentvpn     Component = "vpn"
+	Componentgeneral Component = "general"
+	ComponentService Component = "service"
 )
 
 type Logger struct {
@@ -58,12 +60,13 @@ func GetLogger() *Logger {
 			logger: log.New(os.Stderr, "", log.LstdFlags),
 			level:  LogLevelInfo,
 			enabledComponents: map[Component]bool{
-				ComponentGeneral:     true,
-				ComponentService:     true,
-				ComponentTransaction: true,
-				ComponentConfig:      true,
-				ComponentStorage:     true,
-				ComponentNATS:        true,
+				ComponentRouter:  true,
+				Componentproxy:   true,
+				Componentnetwork: true,
+				Componentads:     true,
+				Componentvpn:     true,
+				Componentgeneral: true,
+				ComponentService: true,
 			},
 		}
 	}
