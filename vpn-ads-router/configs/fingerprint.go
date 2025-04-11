@@ -1,9 +1,9 @@
 package configs
 
 type PortCheck struct {
-	port     int
-	required bool
-	label    string
+	Port     int
+	Required bool
+	Label    string
 }
 
 var PlcFingerprint = []PortCheck{

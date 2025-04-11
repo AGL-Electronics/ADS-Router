@@ -5,6 +5,8 @@ import (
 	"log"
 	"net"
 	"time"
+
+	"vpn-ads-router/configs"
 )
 
 //this fine handels the the scanning of the network and discovering the plc
@@ -28,14 +30,14 @@ func plcDiscover() string { //check common beckhoff ports to identify the plc ba
 	for i := 1; i <= 254; i++ {
 		BaseIp := fmt.Sprintf("%s%d", Subnet, i)
 		matched := true
-		for _, P := range PlcFingerprint {
+		for _, P := range configs.PlcFingerprint {
 			Addr := fmt.Sprintf("%s:%d", BaseIp, P.port) //does not work with IPv6
 			Conn, err := net.DialTimeout("tcp", Addr, Timeout)
 			if err == nil {
 				log.Printf("PLC DISC: Port %d (%s) open on %s", P.port, P.label, BaseIp)
 				Conn.Close()
 			} else {
-				if P.required {
+				if P.Required {
 					log.Printf("PLC DISC: Required port %d (%s) not open on %s", P.port, P.label, BaseIp)
 					matched = false
 					break

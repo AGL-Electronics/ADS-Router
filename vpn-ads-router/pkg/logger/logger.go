@@ -30,11 +30,11 @@ type LogLevel int
 
 const (
 	ComponentRouter  Component = "router"
-	Componentproxy   Component = "proxy"
-	Componentnetwork Component = "network"
-	Componentads     Component = "ads"
-	Componentvpn     Component = "vpn"
-	Componentgeneral Component = "general"
+	ComponentProxy   Component = "proxy"
+	ComponentNetwork Component = "network"
+	ComponentADS     Component = "ads"
+	ComponentVPN     Component = "vpn"
+	ComponentGeneral Component = "general"
 	ComponentService Component = "service"
 )
 
