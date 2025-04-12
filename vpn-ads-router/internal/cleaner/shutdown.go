@@ -19,9 +19,9 @@ type GraceFullShutdown struct {
 	Cancel context.CancelFunc
 }
 
-func new() *GraceFullShutdown {
-	logger := logger.GetLogger()
+var shutdownlogger = logger.GetLogger()
 
+func new() *GraceFullShutdown {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	Gs := &GraceFullShutdown{
@@ -34,7 +34,7 @@ func new() *GraceFullShutdown {
 
 	go func() {
 		<-signals
-		logger.Info(logger.ComponentService, "Received shutdown signal, shutting down...")
+		shutdownlogger.Info(logger.ComponentService, "Received shutdown signal, shutting down...")
 		Gs.Cancel()
 	}()
 	return Gs

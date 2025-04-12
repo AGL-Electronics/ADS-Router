@@ -9,11 +9,12 @@ import (
 	"vpn-ads-router/pkg/logger"
 )
 
-func validateBind(BindPlcAddr string) bool {
-	logger := logger.GetLogger()
+var bindlogger = logger.GetLogger()
+
+func ValidateBind(BindPlcAddr string) bool {
 	host, _, err := net.SplitHostPort(BindPlcAddr)
 	if err != nil {
-		logger.Error(logger.ComponentNetwork, "Invalid cached address: %v", err)
+		bindlogger.Error(logger.ComponentNetwork, "Invalid cached address: %v", err)
 		return false
 	}
 
@@ -23,13 +24,13 @@ func validateBind(BindPlcAddr string) bool {
 		Conn, err := net.DialTimeout("tcp", target, timeout)
 		if err != nil {
 			if P.Required {
-				logger.Error(logger.Componentnetwork, "required port %d (%s) not open on %s", P.Port, P.Label, host)
+				bindlogger.Error(logger.ComponentNetwork, "required port %d (%s) not open on %s", P.Port, P.Label, host)
 				return false
 			}
-			logger.Warn(logger.Componentnetwork, "optional port %d (%s) not open on %s -continuing", P.Port, P.Label, host)
+			bindlogger.Warn(logger.ComponentNetwork, "optional port %d (%s) not open on %s -continuing", P.Port, P.Label, host)
 		} else {
 			Conn.Close()
-			logger.Info(logger.Componentnetwork, "port %d (%s) is open on %s", P.Port, P.Label, host)
+			bindlogger.Info(logger.ComponentNetwork, "port %d (%s) is open on %s", P.Port, P.Label, host)
 		}
 	}
 	return true

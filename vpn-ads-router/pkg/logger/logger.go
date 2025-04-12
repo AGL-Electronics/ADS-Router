@@ -61,11 +61,11 @@ func GetLogger() *Logger {
 			level:  LogLevelInfo,
 			enabledComponents: map[Component]bool{
 				ComponentRouter:  true,
-				Componentproxy:   true,
-				Componentnetwork: true,
-				Componentads:     true,
-				Componentvpn:     true,
-				Componentgeneral: true,
+				ComponentProxy:   true,
+				ComponentNetwork: true,
+				ComponentADS:     true,
+				ComponentVPN:     true,
+				ComponentGeneral: true,
 				ComponentService: true,
 			},
 		}

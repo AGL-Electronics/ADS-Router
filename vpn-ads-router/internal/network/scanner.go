@@ -14,9 +14,9 @@ import (
 var BindPlcAddr string //cached plc address, used to avoid scanning the network every time
 var Subnet string      //subnet to scan, set in the config file
 
-func plcDiscover() string { //check common beckhoff ports to identify the plc based on open ports, this to filter out false positives, if false pos still occur add more ports to fingerprint.
+func PlcDiscover() string { //check common beckhoff ports to identify the plc based on open ports, this to filter out false positives, if false pos still occur add more ports to fingerprint.
 	if BindPlcAddr != "" {
-		if validateBind(BindPlcAddr) {
+		if ValidateBind(BindPlcAddr) {
 			log.Println("PLC DISC: Using cached PLC Address:", BindPlcAddr)
 			return BindPlcAddr
 		}
@@ -31,18 +31,18 @@ func plcDiscover() string { //check common beckhoff ports to identify the plc ba
 		BaseIp := fmt.Sprintf("%s%d", Subnet, i)
 		matched := true
 		for _, P := range configs.PlcFingerprint {
-			Addr := fmt.Sprintf("%s:%d", BaseIp, P.port) //does not work with IPv6
+			Addr := fmt.Sprintf("%s:%d", BaseIp, P.Port) //does not work with IPv6
 			Conn, err := net.DialTimeout("tcp", Addr, Timeout)
 			if err == nil {
-				log.Printf("PLC DISC: Port %d (%s) open on %s", P.port, P.label, BaseIp)
+				log.Printf("PLC DISC: Port %d (%s) open on %s", P.Port, P.Label, BaseIp)
 				Conn.Close()
 			} else {
 				if P.Required {
-					log.Printf("PLC DISC: Required port %d (%s) not open on %s", P.port, P.label, BaseIp)
+					log.Printf("PLC DISC: Required port %d (%s) not open on %s", P.Port, P.Label, BaseIp)
 					matched = false
 					break
 				} else {
-					log.Printf("PLC DISC: Optional (not required) port %d (%s) not open at %s", P.port, P.label, BaseIp)
+					log.Printf("PLC DISC: Optional (not required) port %d (%s) not open at %s", P.Port, P.Label, BaseIp)
 				}
 			}
 
