@@ -21,7 +21,7 @@ type GraceFullShutdown struct {
 
 var shutdownlogger = logger.GetLogger()
 
-func new() *GraceFullShutdown {
+func New() *GraceFullShutdown {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	Gs := &GraceFullShutdown{
