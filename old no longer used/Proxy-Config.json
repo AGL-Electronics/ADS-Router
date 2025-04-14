@@ -1,0 +1,10 @@
+{
+    "plc-cred": {
+        "username": "hvee",
+        "password": "1"
+    },
+    "proxy": {
+        "staticNetIdSuffix": [1, 1],
+        "ethernetInterface": "eth0"
+    }
+}

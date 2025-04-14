@@ -1,0 +1,25 @@
+{
+    "plcFingerprint": [
+      {
+        "port": 48898,
+        "required": true,
+        "label": "AMS router"
+      },
+      {
+        "port": 8016,
+        "required": false,
+        "label": "TwinCAT TCP"
+      },
+      {
+        "port": 443,
+        "required": true,
+        "label": "Web UI (HTTPS)"
+      },
+      {
+        "port": 8015,
+        "required": false,
+        "label": "System service"
+      }
+    ],
+    "subnet": "192.168.88."
+  }

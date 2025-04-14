@@ -4,10 +4,11 @@ import (
 	"net"
 	"os"
 
-	"vpn-ads-router/configs"
+	
 	"vpn-ads-router/internal/network"
 	"vpn-ads-router/internal/proxy"
 	"vpn-ads-router/pkg/logger"
+	"vpn-ads-router/pkg/config"
 )
 
 var BindPlcAddr string
@@ -24,8 +25,8 @@ func init() {
 		logger.ComponentService,
 	})
 
-	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Port Fingerprint loaded with %d ports", len(configs.PlcFingerprint))
-	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Subnet is set to %s", configs.Subnet)
+	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Port Fingerprint loaded with %d ports", len(config.AppConfig.Fingerprint.PlcFingerprint))
+	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Subnet is set to %s", config.AppConfig.Fingerprint.Subnets)
 	logger.GlobalLogger.Info(logger.ComponentService, "INIT: Starting VPN-ADS Router...")
 
 }

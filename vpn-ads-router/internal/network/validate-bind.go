@@ -5,7 +5,7 @@ import (
 	"net"
 	"time"
 
-	"vpn-ads-router/configs"
+	"vpn-ads-router/pkg/config"
 	"vpn-ads-router/pkg/logger"
 )
 
@@ -18,8 +18,8 @@ func ValidateBind(BindPlcAddr string) bool {
 	}
 
 	timeout := 150 * time.Millisecond
-	for _, P := range configs.PlcFingerprint {
-		target := fmt.Sprintf("%s: %d", host, P.Port)
+	for _, P := range config.AppConfig.Fingerprint.PlcFingerprint {
+		target := fmt.Sprintf("%s: %d", host, P.Port) //does not work with IPv6
 		Conn, err := net.DialTimeout("tcp", target, timeout)
 		if err != nil {
 			if P.Required {
