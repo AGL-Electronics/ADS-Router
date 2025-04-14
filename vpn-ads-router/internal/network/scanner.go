@@ -19,7 +19,7 @@ var scannerlogger = logger.GetLogger() //logger for the scanner
 func PlcDiscover() string { //check common beckhoff ports to identify the plc based on open ports, this to filter out false positives, if false pos still occur add more ports to fingerprint.
 	if BindPlcAddr != "" {
 		if ValidateBind(BindPlcAddr) {
-			scannerlogger.Info(logger.ComponentNetwork, "PLC DISC: Cached PLC Address is valid", BindPlcAddr)
+			scannerlogger.Info(logger.ComponentNetwork, "PLC DISC: Cached PLC Address is valid %s", BindPlcAddr)
 			return BindPlcAddr
 		}
 	}
