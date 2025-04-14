@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	globalLogger *Logger
+	GlobalLogger *Logger
 	once         sync.Once
 )
 
@@ -49,28 +49,9 @@ type Logger struct {
 func InitGlobalLogger(logDir string, level LogLevel, components []Component) error {
 	var err error
 	once.Do(func() {
-		globalLogger, err = NewLogger(logDir, level, components)
+		GlobalLogger, err = NewLogger(logDir, level, components)
 	})
 	return err
-}
-
-func GetLogger() *Logger {
-	if globalLogger == nil {
-		globalLogger = &Logger{
-			logger: log.New(os.Stderr, "", log.LstdFlags),
-			level:  LogLevelInfo,
-			enabledComponents: map[Component]bool{
-				ComponentRouter:  true,
-				ComponentProxy:   true,
-				ComponentNetwork: true,
-				ComponentADS:     true,
-				ComponentVPN:     true,
-				ComponentGeneral: true,
-				ComponentService: true,
-			},
-		}
-	}
-	return globalLogger
 }
 
 func NewLogger(logDir string, level LogLevel, components []Component) (*Logger, error) {
