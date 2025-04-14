@@ -4,7 +4,6 @@ import (
 	"vpn-ads-router/pkg/logger"
 )
 
-var routerlogger = logger.GetLogger()
 
 func PatchSourceNetId(data []byte, netId [6]byte) {
 	if len(data) < 16 {
@@ -12,7 +11,7 @@ func PatchSourceNetId(data []byte, netId [6]byte) {
 	}
 
 	copy(data[10:16], netId[:]) //copy the new net id to the payload
-	routerlogger.Debug(logger.ComponentRouter, "Patched source NetID in payload: %v", data[10:16])
+	logger.GlobalLogger.Debug(logger.ComponentRouter, "Patched source NetID in payload: %v", data[10:16])
 }
 
 func ExtractInvokeId(data []byte) uint32 {

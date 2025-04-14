@@ -41,7 +41,7 @@ type PlcFingerprint struct {
 }
 
 var AppConfig Config
-var configlogger = logger.GetLogger()
+
 
 func LoadConfig() error {
 	viper.SetConfigName("config")
@@ -51,16 +51,16 @@ func LoadConfig() error {
 	viper.AutomaticEnv()  // Optional: allow ENV vars to override config file
 
 	if err := viper.ReadInConfig(); err != nil {
-		configlogger.Error(logger.ComponentService, "Error reading config file: %v", err)
+		logger.GlobalLogger.Error(logger.ComponentService, "Error reading config file: %v", err)
 		return err
 	}
 
 	if err := viper.Unmarshal(&AppConfig); err != nil {
-		configlogger.Error(logger.ComponentService, "Error unmarshalling config file: %v", err)
+		logger.GlobalLogger.Error(logger.ComponentService, "Error unmarshalling config file: %v", err)
 		return err
 	}
 
-	configlogger.Info(logger.ComponentService, "Config loaded successfully")
+	logger.GlobalLogger.Info(logger.ComponentService, "Config loaded successfully")
 	return nil
 	
 }

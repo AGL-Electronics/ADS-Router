@@ -12,7 +12,7 @@ type ClientMsg struct {
 	payload     []byte
 }
 
-var connectionlogger = logger.GetLogger()
+
 var IncommingConnChan = make(chan ClientMsg, 100)
 
 // StartListener opens a TCP socket on the given address and starts accepting connections.
@@ -20,17 +20,17 @@ var IncommingConnChan = make(chan ClientMsg, 100)
 func StartListener(Address string) {
 	ln, err := net.Listen("tcp", Address)
 	if err != nil {
-		connectionlogger.Error(logger.ComponentProxy, "Error starting listener on %s: %v", Address, err)
+		logger.GlobalLogger.Error(logger.ComponentProxy, "Error starting listener on %s: %v", Address, err)
 	}
-	connectionlogger.Info(logger.ComponentProxy, "Proxy listening on %s", Address)
+	logger.GlobalLogger.Info(logger.ComponentProxy, "Proxy listening on %s", Address)
 
 	for {
 		Conn, err := ln.Accept()
 		if err != nil {
-			connectionlogger.Error(logger.ComponentProxy, "Error accepting connection: %v", err)
+			logger.GlobalLogger.Error(logger.ComponentProxy, "Error accepting connection: %v", err)
 			continue
 		}
-		connectionlogger.Info(logger.ComponentProxy, "Incomming connection from %s", Conn.RemoteAddr())
+		logger.GlobalLogger.Info(logger.ComponentProxy, "Incomming connection from %s", Conn.RemoteAddr())
 		go HandleClient(Conn)
 	}
 }
@@ -51,18 +51,18 @@ func HandleClient(Conn net.Conn) {
 	defer Conn.Close()
 
 	remoteAddr := Conn.RemoteAddr().String()
-	connectionlogger.Info(logger.ComponentProxy, "Handling connection from %s", remoteAddr)
+	logger.GlobalLogger.Info(logger.ComponentProxy, "Handling connection from %s", remoteAddr)
 
 	for {
 		buf := make([]byte, 1024)
 		n, err := Conn.Read(buf)
 		if err != nil {
-			connectionlogger.Error(logger.ComponentProxy, "Error reading from connection %s: %v", remoteAddr, err)
+			logger.GlobalLogger.Error(logger.ComponentProxy, "Error reading from connection %s: %v", remoteAddr, err)
 			return
 		}
 
 		NetID := ParseSourceNetId(buf[:n])
-		connectionlogger.Debug(logger.ComponentProxy, "Received %d bytes from %s, NetID: %s", n, remoteAddr, NetID)
+		logger.GlobalLogger.Debug(logger.ComponentProxy, "Received %d bytes from %s, NetID: %s", n, remoteAddr, NetID)
 
 		ClientMsg := ClientMsg{
 			SourceNetId: NetID,
@@ -70,6 +70,6 @@ func HandleClient(Conn net.Conn) {
 		}
 
 		IncommingConnChan <- ClientMsg //send the message to the router								THESE 2 REQUIRE TESTING
-		connectionlogger.Debug(logger.ComponentProxy, "Sent message to router: %v", ClientMsg)
+		logger.GlobalLogger.Debug(logger.ComponentProxy, "Sent message to router: %v", ClientMsg)
 	}
 }

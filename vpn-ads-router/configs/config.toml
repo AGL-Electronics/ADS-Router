@@ -1,33 +1,32 @@
 [proxy]
-ethernetInterface = "eth0"  # Network interface for the proxy
-staticNetidSuffix = "1.1"   # Static suffix for network ID
+ethernetInterface = "eth0" # Network interface for the proxy
+staticNetidSuffix = "1.1"  # Static suffix for network ID
 
 [plc.credentials]
-username = "admin"          # Username for PLC access
-password = "secret"         # Password for PLC access (stored here instead of ENV)
+username = "admin"  # Username for PLC access
+password = "secret" # Password for PLC access (stored here instead of ENV)
 
 [fingerprint]
 subnets = [
-    "192.168.88.0/24",       # Subnet for local network
-    "10.0.0.0/24"            # Subnet for secondary network
+    "192.168.88.", # Subnet for local network
 ]
 
 [[fingerprint.ports]]
 port = 48898
-label = "AMS router"         # Port for AMS router communication
-required = true              # This port is mandatory
+label = "AMS router" # Port for AMS router communication
+required = true      # This port is mandatory
 
 [[fingerprint.ports]]
 port = 8016
-label = "TwinCAT TCP"        # Port for TwinCAT TCP communication
-required = false             # This port is optional
+label = "TwinCAT TCP" # Port for TwinCAT TCP communication
+required = false      # This port is optional
 
 [[fingerprint.ports]]
 port = 443
-label = "Web UI"             # Port for accessing the web interface
-required = true              # This port is mandatory
+label = "Web UI" # Port for accessing the web interface
+required = true  # This port is mandatory
 
 [[fingerprint.ports]]
 port = 8015
-label = "System service"     # Port for system service
-required = false             # This port is optional
+label = "System service" # Port for system service
+required = false         # This port is optional

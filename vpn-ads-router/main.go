@@ -4,11 +4,10 @@ import (
 	"net"
 	"os"
 
-	
 	"vpn-ads-router/internal/network"
 	"vpn-ads-router/internal/proxy"
-	"vpn-ads-router/pkg/logger"
 	"vpn-ads-router/pkg/config"
+	"vpn-ads-router/pkg/logger"
 )
 
 var BindPlcAddr string
@@ -71,7 +70,7 @@ func main() {
 				return
 			}
 
-			proxy.Handleconnection(c)
+			proxy.HandleClient(c)
 		}(Conn)
 	}
 }

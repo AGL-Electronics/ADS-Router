@@ -12,8 +12,7 @@ import (
 //this fine handels the the scanning of the network and discovering the plc
 //it uses the plc fingerprint to identify the plc based on open ports
 
-var BindPlcAddr string                 //cached plc address, used to avoid scanning the network every time
-var scannerSubnet string               //subnet to scan, set in the config file
+var BindPlcAddr string //cached plc address, used to avoid scanning the network every time
 
 func PlcDiscover() string { //check common beckhoff ports to identify the plc based on open ports, this to filter out false positives, if false pos still occur add more ports to fingerprint.
 	if BindPlcAddr != "" {
@@ -49,14 +48,14 @@ func PlcDiscover() string { //check common beckhoff ports to identify the plc ba
 					}
 				}
 			}
-		if matched {
-			logger.GlobalLogger.Info(logger.ComponentNetwork, "PLC DISC: Found device matching fingerprint at %s, likely a PLC, caching IP", BaseIp)
-			BindPlcAddr = fmt.Sprintf("%s:48898", BaseIp)
-			return BindPlcAddr
+			if matched {
+				logger.GlobalLogger.Info(logger.ComponentNetwork, "PLC DISC: Found device matching fingerprint at %s, likely a PLC, caching IP", BaseIp)
+				BindPlcAddr = fmt.Sprintf("%s:48898", BaseIp)
+				return BindPlcAddr
+			}
 		}
-	}
-	logger.GlobalLogger.Fatal(logger.ComponentNetwork, "PLC DISC: No PLC found with fingerprint on subnet %s\n", Subnet)
-	//os.Exit(1) 	//might need to live at main.go, test this with real pc on network
+		logger.GlobalLogger.Fatal(logger.ComponentNetwork, "PLC DISC: No PLC found with fingerprint on subnet %s\n", config.AppConfig.Fingerprint.Subnets)
+		//os.Exit(1) 	//might need to live at main.go, test this with real pc on network
 	}
 	return ""
 }

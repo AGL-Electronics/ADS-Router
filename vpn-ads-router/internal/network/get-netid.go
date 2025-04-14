@@ -5,15 +5,13 @@ import (
 
 	"vpn-ads-router/pkg/logger"
 )
-var localIPlogger = logger.GetLogger()
-
 var ProxynetID [6]byte
 
 // GetLocalIP returns the local IP address of the machine.
 func GetLocalIP(interfacename string) (net.IP, error) {
 	iface, err := net.InterfaceByName(interfacename)
 	if err != nil {
-		localIPlogger.Error(logger.ComponentNetwork, "Error getting interface %s: %v", interfacename, err)
+		logger.GlobalLogger.Error(logger.ComponentNetwork, "Error getting interface %s: %v", interfacename, err)
 		return nil, err
 	}
 
@@ -29,7 +27,7 @@ func GetLocalIP(interfacename string) (net.IP, error) {
 			}
 		}
 	}
-	localIPlogger.Error(logger.ComponentNetwork, "No valid IPv4 address found for interface %s", interfacename)
+	logger.GlobalLogger.Error(logger.ComponentNetwork, "No valid IPv4 address found for interface %s", interfacename)
 	return nil, err
 }
 

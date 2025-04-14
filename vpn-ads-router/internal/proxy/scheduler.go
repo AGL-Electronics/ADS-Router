@@ -5,11 +5,9 @@ import (
 	"time"
 
 	"vpn-ads-router/internal/network"
-	"vpn-ads-router/internal/router"
+	//"vpn-ads-router/internal/router"
 	"vpn-ads-router/pkg/logger"
 )
-
-var schedulerlogger = logger.GetLogger()
 
 var PlcAddr = network.BindPlcAddr        //cached plc address, used to avoid scanning the network every time
 var PlcConn net.Conn                     //active PLC connection
@@ -21,15 +19,15 @@ func StartScheduler() {
 	timeout := 150 * time.Millisecond
 	PlcConn, err = net.DialTimeout("tcp", PlcAddr, timeout)
 	if err != nil {
-		schedulerlogger.Error(logger.ComponentProxy, "Error connecting to PLC at %s: %v", PlcAddr, err)
+		logger.GlobalLogger.Error(logger.ComponentProxy, "Error connecting to PLC at %s: %v", PlcAddr, err)
 	}
-	schedulerlogger.Info(logger.ComponentProxy, "Connected to PLC at %s", PlcAddr)
+	logger.GlobalLogger.Info(logger.ComponentProxy, "Connected to PLC at %s", PlcAddr)
 
 	for msg := range IncommingConnChan {
-		err := router.ProcessMsg(msg, PlcConn)
+		//err := router.ProcessMsg(msg, PlcConn)
 		if err != nil {
-			schedulerlogger.Error(logger.ComponentProxy, "Error processing message: %v", err)
-			schedulerlogger.Error(logger.ComponentProxy, "Error processing message: %v", msg.payload)
+			logger.GlobalLogger.Error(logger.ComponentProxy, "Error processing message: %v", err)
+			logger.GlobalLogger.Error(logger.ComponentProxy, "Error processing message: %v", msg.payload)
 			continue
 		}
 	}
