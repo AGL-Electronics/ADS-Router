@@ -45,7 +45,7 @@ var configlogger = logger.GetLogger()
 
 func LoadConfig() error {
 	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
+	viper.SetConfigType("toml")
 	viper.AddConfigPath("./configs/")
 
 	viper.AutomaticEnv()  // Optional: allow ENV vars to override config file

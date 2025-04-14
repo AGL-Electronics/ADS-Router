@@ -4,7 +4,7 @@ import (
 	"net"
 	"time"
 
-	"vpn-ads-router/configs"
+	"vpn-ads-router/pkg/config"
 	"vpn-ads-router/pkg/logger"
 	"vpn-ads-router/internal/network"
 )
@@ -15,25 +15,6 @@ var schedulerlogger = logger.GetLogger()
 var PlcAddr = network.BindPlcAddr 			//cached plc address, used to avoid scanning the network every time
 var PlcConn net.Conn 						//active PLC connection
 var RequestMap = make(map[uint32]string)	//map of request id to source net id, used to identify the source of the request
-
-func validateBindreadConfig() {
-	var fingerprintConfig configs.FingerprintFile
-
-	if err := configs.LoadJSONConfig("configs/PLC-Fingerprint.json", &fingerprintConfig); err != nil {
-		schedulerlogger.Error(logger.ComponentProxy, "Error loading fingerprint config: %v", err)
-		return
-	}
-
-	if len(fingerprintConfig.Subnet) == 0 {
-		schedulerlogger.Error(logger.ComponentProxy, "No subnets found in fingerprint config")
-		return
-	}
-
-	Subnet = fingerprintConfig.Subnet[0].Subnet //get the first subnet from the config, this should be changed to support multiple subnets in the future
-
-	PlcFingerprint = fingerprintConfig.PlcFingerprint //get the plc fingerprint from the config
-}
-
 
 func StartScheduler() {
     // 1. Connect to the PLC

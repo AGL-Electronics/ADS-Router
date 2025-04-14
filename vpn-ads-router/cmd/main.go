@@ -3,35 +3,15 @@ package main
 import (
 	"net"
 
-	"vpn-ads-router/configs"
 	"vpn-ads-router/internal/network"
+	"vpn-ads-router/pkg/config"
+
 	// "vpn-ads-router/internal/proxy" needs to be added back later
 	"vpn-ads-router/pkg/logger"
 )
 
 var BindPlcAddr string
 var systemlogger = logger.GetLogger()
-
-var Subnet string
-var PlcFingerprint []configs.PlcFingerprint
-
-func mainReadConfig() {
-	var fingerprintConfig configs.FingerprintFile
-
-	if err := configs.LoadJSONConfig("configs/PLC-Fingerprint.json", &fingerprintConfig); err != nil {
-		systemlogger.Error(logger.ComponentNetwork, "Error loading fingerprint config: %v", err)
-		return
-	}
-
-	if len(fingerprintConfig.Subnet) == 0 {
-		systemlogger.Error(logger.ComponentNetwork, "No subnets found in fingerprint config")
-		return
-	}
-
-	Subnet = fingerprintConfig.Subnet[0].Subnet //get the first subnet from the config, this should be changed to support multiple subnets in the future
-
-	PlcFingerprint = fingerprintConfig.PlcFingerprint //get the plc fingerprint from the config
-}
 
 func init() {
 	// Initialize the logger
@@ -45,8 +25,8 @@ func init() {
 		logger.ComponentService,
 	})
 
-	systemlogger.Info(logger.ComponentService, "INIT: PLC Port Fingerprint loaded with %d ports", len(PlcFingerprint))
-	systemlogger.Info(logger.ComponentService, "INIT: PLC Subnet is set to %s",Subnet)
+	systemlogger.Info(logger.ComponentService, "INIT: PLC Port Fingerprint loaded with %d ports", len(config.AppConfig.Fingerprint.PlcFingerprint))
+	systemlogger.Info(logger.ComponentService, "INIT: PLC Subnet is set to %s", config.AppConfig.Fingerprint.Subnets[0])
 	systemlogger.Info(logger.ComponentService, "INIT: Starting VPN-ADS Router...")
 
 }
@@ -89,7 +69,7 @@ func main() {
 				c.Close()
 				return
 			}
-// add handeling for connection back here
+			// add handeling for connection back here
 
 		}(Conn)
 	}
