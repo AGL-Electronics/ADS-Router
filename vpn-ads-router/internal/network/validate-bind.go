@@ -20,7 +20,7 @@ func ValidateBind(BindPlcAddr string) bool {
 
 	timeout := 150 * time.Millisecond
 	for _, P := range configs.PlcFingerprint {
-		target := fmt.Sprintf("%s:%d", host, P.Port)
+		target := fmt.Sprintf("%s: %d", host, P.Port)
 		Conn, err := net.DialTimeout("tcp", target, timeout)
 		if err != nil {
 			if P.Required {
