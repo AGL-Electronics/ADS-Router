@@ -49,7 +49,7 @@ func main() {
 		logger.GlobalLogger.Error(logger.ComponentService, "Failed to listen on %s: %v", ListenAddr, err)
 	}
 
-	logger.GlobalLogger.Info(logger.ComponentService, "Listening on %s for ADS connections...", ListenAddr)
+	logger.GlobalLogger.Error(logger.ComponentService, "Listening on %s for ADS connections...", ListenAddr)
 
 	for {
 		Conn, err := ln.Accept()
