@@ -52,14 +52,14 @@ func LoadConfig() error {
 		logger.GlobalLogger.Error(logger.ComponentService, "Error reading config file: %v", err)
 		return err
 	} else {
-		logger.GlobalLogger.Info(logger.ComponentService, "Config file found: %s", viper.ConfigFileUsed())
+		logger.GlobalLogger.Debug(logger.ComponentService, "Config file found: %s", viper.ConfigFileUsed())
 	}
 
 	if err := viper.Unmarshal(&AppConfig); err != nil {
 		logger.GlobalLogger.Error(logger.ComponentService, "Error unmarshalling config file: %v", err)
 		return err
 	} else {
-		logger.GlobalLogger.Info(logger.ComponentService, "Config file unmarshalled successfully")
+		logger.GlobalLogger.Debug(logger.ComponentService, "Config file unmarshalled successfully")
 	}
 
 	logger.GlobalLogger.Info(logger.ComponentService, "Config loaded successfully")

@@ -27,7 +27,7 @@ func init() {
 	})
 
 	config.LoadConfig()
-	logger.GlobalLogger.Info(logger.ComponentService, "INIT: Loaded config file: %s", viper.ConfigFileUsed())
+	logger.GlobalLogger.Debug(logger.ComponentService, "INIT: Loaded config file: %s", viper.ConfigFileUsed())
 
 	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Port Fingerprint loaded with %d ports", len(config.AppConfig.Fingerprint.PlcFingerprint))
 	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Subnet is set to %s", config.AppConfig.Fingerprint.Subnets)
