@@ -4,6 +4,8 @@ import (
 	"net"
 	"os"
 
+	"github.com/spf13/viper"
+
 	"vpn-ads-router/internal/network"
 	"vpn-ads-router/internal/proxy"
 	"vpn-ads-router/pkg/config"
@@ -24,10 +26,12 @@ func init() {
 		logger.ComponentService,
 	})
 
+	config.LoadConfig()
+	logger.GlobalLogger.Info(logger.ComponentService, "INIT: Loaded config file: %s", viper.ConfigFileUsed())
+
 	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Port Fingerprint loaded with %d ports", len(config.AppConfig.Fingerprint.PlcFingerprint))
 	logger.GlobalLogger.Info(logger.ComponentService, "INIT: PLC Subnet is set to %s", config.AppConfig.Fingerprint.Subnets)
 	logger.GlobalLogger.Info(logger.ComponentService, "INIT: Starting VPN-ADS Router...")
-
 }
 
 func main() {

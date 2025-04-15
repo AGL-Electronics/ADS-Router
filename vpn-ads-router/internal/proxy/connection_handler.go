@@ -12,7 +12,6 @@ type ClientMsg struct {
 	payload     []byte
 }
 
-
 var IncommingConnChan = make(chan ClientMsg, 100)
 
 // StartListener opens a TCP socket on the given address and starts accepting connections.
@@ -43,7 +42,6 @@ func ParseSourceNetId(payload []byte) string {
 	b := payload[10:16] //get the source net id from the payload, this is a 6 byte value
 	return fmt.Sprintf("%d.%d.%d.%d.%d.%d", b[0], b[1], b[2], b[3], b[4], b[5])
 }
-
 
 // handleClient handles one incomming tcp connection from a client.
 // it contnuesly reads packets and sends them to the sheduler queue.
