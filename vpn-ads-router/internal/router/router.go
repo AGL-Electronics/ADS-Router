@@ -5,22 +5,40 @@ import (
 )
 
 
-func PatchSourceNetId(data []byte, netId [6]byte) {
-	if len(data) < 16 {
-		return //invalid data
-	}
 
-	copy(data[10:16], netId[:]) //copy the new net id to the payload
-	logger.GlobalLogger.Debug(logger.ComponentRouter, "Patched source NetID in payload: %v", data[10:16])
-}
+function handleResponse(request):
+    // Step 1: Parse the incoming request
+    parsedRequest = parseRequest(request)
 
-func ExtractInvokeId(data []byte) uint32 {
-	if len(data) < 40 {
-		return 0 //invalid data
-	}
+    // Step 2: Process the request
+    responseData = processRequest(parsedRequest)
 
-	return uint32(data[36]) |
-		(uint32(data[37]) << 8) |
-		(uint32(data[38]) << 16) |
-		(uint32(data[39]) << 24) //extract the invoke id from the payload, this is a 4 byte value
-}
+    // Step 3: Format the response
+    formattedResponse = formatResponse(responseData)
+
+    // Step 4: Send the response back to the original connection
+    sendResponseToConnection(formattedResponse, parsedRequest.connection)
+
+    // Step 5: Log the response handling for debugging or auditing
+    logResponseHandling(parsedRequest, formattedResponse)
+
+function parseRequest(request):
+    // Extract necessary details from the request
+    return parsedRequest
+
+function processRequest(parsedRequest):
+    // Perform the required operations based on the request
+    return responseData
+
+function formatResponse(responseData):
+    // Convert the response data into the appropriate format (e.g., JSON, XML)
+    return formattedResponse
+
+function sendResponseToConnection(response, connection):
+    // Send the response back to the original connection
+    connection.write(response)
+
+function logResponseHandling(request, response):
+    // Log the request and response details
+    log("Request:", request)
+    log("Response:", response)
