@@ -5,6 +5,7 @@ staticNetidSuffix = "1.1"  # Static suffix for network ID
 [plc.credentials]
 username = "admin"  # Username for PLC access
 password = "secret" # Password for PLC access (stored here instead of ENV)
+netid = "5.1.1"     # NetID for PLC communication
 
 [fingerprint]
 subnets = [
