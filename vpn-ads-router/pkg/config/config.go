@@ -31,6 +31,7 @@ type FingerprintConfig struct {
 type Credentials struct {
 	Username string `mapstructure:"username"`
 	Password string `mapstructure:"password"`
+	Netid    string `mapstructure:"netid"`
 }
 
 type PlcFingerprint struct {

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"vpn-ads-router/internal/network"
-	//"vpn-ads-router/internal/router"
+	"vpn-ads-router/internal/router"
 	"vpn-ads-router/pkg/logger"
 )
 
@@ -24,7 +24,7 @@ func StartScheduler() {
 	logger.GlobalLogger.Info(logger.ComponentProxy, "Connected to PLC at %s", PlcAddr)
 
 	for msg := range IncommingConnChan {
-		//err := router.ProcessMsg(msg, PlcConn)
+		err := router.ProcessMsg(msg, PlcConn)
 		if err != nil {
 			logger.GlobalLogger.Error(logger.ComponentProxy, "Error processing message: %v", err)
 			logger.GlobalLogger.Error(logger.ComponentProxy, "Error processing message: %v", msg.payload)
